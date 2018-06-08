@@ -1,4 +1,5 @@
 # SVGeezy
+
 ### A JavaScript plugin to handle your images in browsers that don't support SVGs
 
 SVGeezy is in essence, a fallback plugin. It allows you to use SVGs for all your assets, giving you complete resolution independence.
@@ -11,12 +12,18 @@ SVGeezy can being installed using bower with `bower install svgeezy`. Alternativ
 
 ### Use
 
-	svgeezy.init('nocheck', 'png'); // this will tell the plugin to not check images with a class of 'nocheck'
+```js
+// this will tell the plugin to not check images with a class of 'nocheck'
+svgeezy.init('nocheck', 'png');
+```
 
 or 
 
-	svgeezy.init(false, 'png');	// this will let the plugin check all images
-	
+```js
+// this will let the plugin check all images
+svgeezy.init(false, 'png');
+```
+
 or
 
 Check out this [JSFiddle](http://jsfiddle.net/benhowdle89/WbtjA/) for example usage
