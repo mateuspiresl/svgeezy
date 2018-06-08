@@ -6,7 +6,10 @@
     "type": "git",
     "url": "git://github.com/benhowdle89/svgeezy"
   },
-  "main": "svgeezy.js",  
+  "main": "svgeezy.js",
+  "scripts": {
+    "minify": "uglifyjs -c -m --comments all -o svgeezy.min.js -- svgeezy.js"
+  },
   "keywords": [
     "svg",
     "fallback",
@@ -19,5 +22,8 @@
   ],
   "bugs": {
     "url": "https://github.com/benhowdle89/svgeezy/issues"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.4.0"
   }
 }
