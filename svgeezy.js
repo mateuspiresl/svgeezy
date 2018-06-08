@@ -13,56 +13,35 @@
 
 window.svgeezy = function() {
 
+	function hasClass(element, cls) {
+		return element.classList.contains(cls)
+	}
+
+	function isSvg(src) {
+		return src && src.split('.').pop().split('?')[0] == 'svg';
+	}
+
+	function supportsSvg() {
+		return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1");
+	}
+
 	return {
-
-		init: function(avoid, filetype, forceFallbackAlways) {
-			this.avoid = avoid || false;
-			this.filetype = filetype || 'png';
-			this.svgSupport = false;
-			if (!forceFallbackAlways) {
-				this.svgSupport = this.supportsSvg();
+		init: function (avoid, filetype, forceFallbackAlways) {
+			filetype = filetype || 'png';
+			
+			if (forceFallbackAlways || !supportsSvg()) {
+				document.getElementsByTagName('img')
+					.forEach(function (image) {
+						if (image && (!avoid || !hasClass(image, avoid))) {
+							var src = image.getAttribute('src');
+							
+							if (isSvg(src)) {
+								var newSrc = src.replace('.svg', '.' + filetype);
+								image.setAttribute('src', newSrc);
+							}
+						}
+					})
 			}
-			if(!this.svgSupport) {
-				this.images = document.getElementsByTagName('img');
-				this.imgL = this.images.length;
-				this.fallbacks();
-			}
-		},
-
-		fallbacks: function() {
-			if (this.imgL == 0) {
-				return;
-			}
-			while(--this.imgL) {
-				if(this.avoid && this.hasClass(this.images[this.imgL], this.avoid)) {
-					continue;
-				}
-				var src = this.images[this.imgL].getAttribute('src');
-				if(src === null || this.getFileExt(src) != 'svg') {
-					continue;
-				}
-				var newSrc = src.replace('.svg', '.' + this.filetype);
-				this.images[this.imgL].setAttribute('src', newSrc);
-				
-			}
-		},
-
-		getFileExt: function(src) {
-			var ext = src.split('.').pop();
-
-			if(ext.indexOf("?") !== -1) {
-				ext = ext.split('?')[0];
-			}
-
-			return ext;
-		},
-
-		hasClass: function(element, cls) {
-			return(' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
-		},
-
-		supportsSvg: function() {
-			return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1");
 		}
 	};
 
